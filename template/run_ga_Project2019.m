@@ -1,4 +1,4 @@
-function run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+function [best_end,mean_fits_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -29,7 +29,7 @@ function run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, 
 % if stoppingCriteria is 3 then:
 %   if E_3(T)=mean(min(F)) stays in the interval [E_1(T)-delta,E_1(T)+delta] for n_percentage of following
 %   generations
-stoppingCriteria=3;
+stoppingCriteria=2;
 % percentage of generations the EA will stop if they produce the same
 % output for several generations
 n_percentage=0.1;
@@ -83,7 +83,7 @@ delta=0.02;
             end
 
             
-            visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
+            %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
                   break;
@@ -132,11 +132,13 @@ delta=0.02;
             if n_end==1
                     maxEqualGeneration=ceil(gen+1*n_percentage);
             end
-            if(n_end>maxEqualGeneration)
+            if(n_end>maxEqualGeneration &maxEqualGeneration>5)
                  break;
-            end;
+            end
             
             %increment generation counter
         	gen=gen+1; 
         end 
+        best_end=best(end);
+        mean_fits_end=mean_fits(end);
 end
