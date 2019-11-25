@@ -1,9 +1,16 @@
 % Partially Mapped Crossover opeator: read section 2.1.1. here:
 % https://www.hindawi.com/journals/cin/2017/7430125/
+%
+% low level function for calculating an offspring
+% given 2 parent in the Parents - agrument
+% Parents is a matrix with 2 rows, each row
+% represent the genocode of the parent
 
-function [child1, child2] = pmx(parent1, parent2)
+function [child1, child2] = pmx(Parents)
 
-n = length(parent1);
+n = size(Parents, 2);
+parent1 = Parents(1, :);
+parent2 = Parents(2, :);
 
 % choose 2 random slice points and sort them
 randIdcs = sort(randperm(n,2));
