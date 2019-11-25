@@ -49,14 +49,17 @@ delta=0.02;
         % initialize population
         Chrom=zeros(NIND,NVAR);
         for row=1:NIND
-        	Chrom(row,:)=path2adj(randperm(NVAR));
-            %Chrom(row,:)=randperm(NVAR);
+            %adjacency representation
+        	%Chrom(row,:)=path2adj(randperm(NVAR));
+            
+            %path representation
+            Chrom(row,:)=randperm(NVAR);
         end
         gen=0;
         % number of individuals of equal fitness needed to stop
         stopN=ceil(STOP_PERCENTAGE*NIND);
         % evaluate initial population
-        ObjV = tspfun(Chrom,Dist);
+        ObjV = tspfun_path(Chrom,Dist);
         best=zeros(1,MAXGEN);
         best_average=zeros(1,MAXGEN);
         
@@ -84,6 +87,7 @@ delta=0.02;
 
             
             %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
+            visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
                   break;
@@ -96,7 +100,7 @@ delta=0.02;
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             SelCh=mutateTSP('inversion',SelCh,PR_MUT);
             %evaluate offspring, call objective function
-        	ObjVSel = tspfun(SelCh,Dist);
+        	ObjVSel = tspfun_path(SelCh,Dist);
             %reinsert offspring into population
         	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
             
