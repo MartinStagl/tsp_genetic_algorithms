@@ -53,7 +53,11 @@ delta=0.02;
         	%Chrom(row,:)=path2adj(randperm(NVAR));
             
             %path representation
+            %----------------------------------------
+            %here for heuristic initialization
             Chrom(row,:)=randperm(NVAR);
+            
+            %----------------------------------------
         end
         gen=0;
         % number of individuals of equal fitness needed to stop
