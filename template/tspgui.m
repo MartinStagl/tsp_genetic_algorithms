@@ -12,8 +12,8 @@ STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-%CROSSOVER = 'xalt_edges';  % default crossover operator
-CROSSOVER = 'xpmx';
+CROSSOVER = 'xalt_edges';  % default crossover operator
+%CROSSOVER = 'xpmx';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population

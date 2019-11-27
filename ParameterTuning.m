@@ -1,13 +1,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=[50];		% Number of individuals
-MAXGEN=[100];		% Maximum no. of generations
+NIND=[20,50,100,200];		% Number of individuals
+MAXGEN=[50,100,200,500];		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
-ELITIST=[0.05];    % percentage of the elite population
+ELITIST=[0.05,0.1,0.01,0];    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=[.95];     % probability of crossover
-PR_MUT=[.05];       % probability of mutation
+PR_CROSS=[.95,.60,.10,.1];     % probability of crossover
+PR_MUT=[.05,.10,.60,.85];       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = ["xalt_edges"];  % default crossover operator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,7 +32,8 @@ fh = figure('Visible','off','Name','TSP Tool','Position',[0,0,1024,768]);
 ah1 = axes('Parent',fh,'Position',[.1 .55 .4 .4]);
 plot(x,y,'ko')
 ah2 = axes('Parent',fh,'Position',[.55 .55 .4 .4]);
-axes(ah2);
+%uncommented this so there is no GUI
+%axes(ah2);
 xlabel('Generation');
 ylabel('Distance (Min. - Gem. - Max.)');
 ah3 = axes('Parent',fh,'Position',[.1 .1 .4 .4]);
@@ -44,21 +45,36 @@ ah3 = axes('Parent',fh,'Position',[.1 .1 .4 .4]);
 i=1;
 PARAMNUM=length(CROSSOVER)+length(NIND)+length(MAXGEN)+length(ELITIST)+length(PR_CROSS)+length(PR_MUT);
 
-time=zeros(1,PARAMNUM+1);
-best_end=zeros(1,PARAMNUM+1);
-mean_fits_end=zeros(1,PARAMNUM+1);
-gen=zeros(1,PARAMNUM+1);
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results Table
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+elements = {CROSSOVER ,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT}; %cell array with N vectors to combine
+ combinations = cell(1, numel(elements)); %set up the varargout result
+ [combinations{:}] = ndgrid(elements{:});
+ combinations = cellfun(@(x) x(:), combinations,'uniformoutput',false); %there may be a better way to do this
+ result = splitvars(table([combinations{:,:}])); % NumberOfCombinations by N matrix. Each row is unique.
+result.Properties.VariableNames ={'CROSSOVER','NIND','MAXGEN','ELITIST','PR_CROSS','PR_MUT'};
+result.Time=zeros(size(result,1),1);
+result.ShortestPath=zeros(size(result,1),1);
+result.Generations=zeros(size(result,1),1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for crosso=CROSSOVER 
     for individiuals=NIND
         for maxgenerations=MAXGEN
             for elite=ELITIST
                 for cross=PR_CROSS
                     for mut=PR_MUT
-                        tic;
-[best_end(i),mean_fits_end(i),gen(i)]=run_ga_Project2019(x, y, individiuals, maxgenerations, NVAR, elite, STOP_PERCENTAGE, cross, mut, crosso, LOCALLOOP, ah1, ah2, ah3);
-                        time(i)=toc;
-                        i=i+1
+                        help_ShortestPath=zeros(10,1);
+                        help_Generations=zeros(10,1);
+                        help_Time=zeros(10,1);
+                        for iter = 1:10 
+                            tic;
+                            [help_ShortestPath(iter),help_Generations(iter)]=run_ga_Project2019(x, y, individiuals, maxgenerations, NVAR, elite, STOP_PERCENTAGE, cross, mut, crosso, LOCALLOOP, ah1, ah2, ah3);
+                            help_Time(iter)=toc;
+                        end
+                        result(i,{'ShortestPath','Generations'})={mean(nonzeros(help_ShortestPath)),mean(nonzeros(help_Generations))};                       
+                        result(i,{'Time'})={mean(nonzeros(help_Time))};
+                        i=i+1;
                     end
                 end
             end
@@ -69,6 +85,24 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %VISUALISATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-boxplot(best_end,time)
-%plot([0:gen],best(1:gen+1),'r-', [0:gen],mean_fits(1:gen+1),'black', [0:gen],worst(1:gen+1),'g-', [0:gen],best_average(1:gen+1),'blue');
+figure;
+result(1:5,:);
+stackedplot(result);
 
+figure;
+subplot(2,2,1);
+boxplot(result.ShortestPath,result.CROSSOVER)
+title('ShortestPath by CROSSOVER')
+xlabel('CROSSOVER')
+ylabel('Shortest Path Length')
+subplot(2,2,2); 
+boxplot(result.ShortestPath,result.PR_CROSS)
+title('ShortestPath by PR_CROSS')
+xlabel('PR_CROSS')
+ylabel('Shortest Path Length')
+subplot(2,2,[3,4]); 
+boxplot(result.ShortestPath,result.NIND)
+title('ShortestPath by NIND')
+xlabel('NIND')
+ylabel('Shortest Path Length')
+result(1:5,:);
