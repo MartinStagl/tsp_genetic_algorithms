@@ -65,8 +65,8 @@ delta=0.02;
         % number of individuals of equal fitness needed to stop
         stopN=ceil(STOP_PERCENTAGE*NIND);
         % evaluate initial population
-        ObjV = tspfun(Chrom,Dist);
-        %ObjV = tspfun_path(Chrom,Dist);
+        %ObjV = tspfun(Chrom,Dist);
+        ObjV = tspfun_path(Chrom,Dist);
         best=zeros(1,MAXGEN);
         best_average=zeros(1,MAXGEN);
         
@@ -108,8 +108,8 @@ delta=0.02;
             SelCh=mutateTSP('inversion',SelCh,PR_MUT);
             
             %evaluate offspring, call objective function
-            ObjVSel = tspfun(SelCh,Dist);
-        	%ObjVSel = tspfun_path(SelCh,Dist);
+            %ObjVSel = tspfun(SelCh,Dist);
+        	ObjVSel = tspfun_path(SelCh,Dist);
             
             %reinsert offspring into population
         	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
