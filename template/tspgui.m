@@ -16,6 +16,13 @@ CROSSOVER = 'xalt_edges';  % default crossover operator
 %CROSSOVER = 'xpmx';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+stoppingCriteria=2;
+n_percentage=0.3;
+delta=0.05;
+InitializationMethode=1;
+RepresentationMethode=1;
+MutationMethode='inversion';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % read an existing population
 % 1 -- to use the input file specified by the filename
 % 0 -- click the cities yourself, which will be saved in the file called
@@ -179,7 +186,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3);
+        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)

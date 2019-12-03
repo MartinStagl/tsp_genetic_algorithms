@@ -10,11 +10,11 @@ function ObjVal = tspfun_path(Phen, Dist);
     si=size(Phen,2);
 	ObjVal=diag(Dist(Phen(:,1),Phen(:,2)),0);
 
-    for t=2:si+1
-        if t==17
-            break;
+    for t=3:si
+        if (t==si)
+            ObjVal=ObjVal+diag(Dist(Phen(:,t),Phen(:,1)),0);
         end
-    	ObjVal=ObjVal+diag(Dist(Phen(:,t),Phen(:,mod(t+1,si))),0);
+        ObjVal=ObjVal+diag(Dist(Phen(:,t-1),Phen(:,t)),0);
 	end
 
 % End of function

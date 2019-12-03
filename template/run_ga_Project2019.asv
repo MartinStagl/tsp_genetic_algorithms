@@ -1,4 +1,4 @@
-function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode)
+function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -37,9 +37,6 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
 
 % tuning parameter for stopping criteria
 %delta=0.02; 
-
-%MutationMethode
-% reciprocal exchange.m or inversion.m
 
 
 %Representation
@@ -148,16 +145,14 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
         	SelCh=select('sus', Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
-            
-            
-            SelCh=mutateTSP(MutationMethode,SelCh,PR_MUT,RepresentationMethode);
+            SelCh=mutateTSP('inversion',SelCh,PR_MUT);
             
             %evaluate offspring, call objective function
             if(RepresentationMethode==1)
                 ObjVSel = tspfun(SelCh,Dist);
-            elseif(RepresentationMethode==2)
+        elseif(RepresentationMethode==2)
                 ObjVSel = tspfun_path(SelCh,Dist);
-            end
+        end
 
         	%ObjVSel = tspfun_path(SelCh,Dist);
             
