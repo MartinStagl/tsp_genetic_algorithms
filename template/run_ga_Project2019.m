@@ -1,4 +1,4 @@
-function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -16,7 +16,7 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP}
+{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP};
 
 % Own Parameters to optimize later:
 % Stopping Criteria (stop EA when criteria holds): 
@@ -29,12 +29,25 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
 % if stoppingCriteria is 3 then:
 %   if E_3(T)=mean(min(F)) stays in the interval [E_1(T)-delta,E_1(T)+delta] for n_percentage of following
 %   generations
-stoppingCriteria=2;
+%stoppingCriteria=2;
+
 % percentage of generations the EA will stop if they produce the same
 % output for several generations
-n_percentage=0.1;
+%n_percentage=0.1;
+
 % tuning parameter for stopping criteria
-delta=0.02; 
+%delta=0.02; 
+
+
+%Representation
+%Parameter RepresentationMethode
+% 1 for Adjacency Representation
+% 2 for Pathrepresentation
+
+%Initialization
+%Parameter InitializationMethode
+% 1 for Random initialization
+% 2 for NearestNeighbour Heuristic Initialization
 
 
         GGAP = 1 - ELITIST;
@@ -48,19 +61,32 @@ delta=0.02;
         end
         % initialize population
         Chrom=zeros(NIND,NVAR);
-        for row=1:NIND
-            %adjacency representation
-        	%Chrom(row,:)=path2adj(randperm(NVAR));
-            %adjacency representation with heuristic
-            Chrom(row,:)=path2adj(nearestneighbour(NVAR,Dist));
-            %path representation
-            %----------------------------------------
-            %here for heuristic initialization
-            %Chrom(row,:)=randperm(NVAR);
-            %Chrom(row,:)=nearestneighbour(NVAR,Dist);
-            
-            %----------------------------------------
+        
+        
+        %Choose Representation
+        if(RepresentationMethode==1)
+            for row=1:NIND
+                %Choose Initialization
+                if(InitializationMethode==1)
+                    startpopulation=randperm(NVAR);
+                elseif(InitializationMethode==2)
+                    startpopulation=nearestneighbour(NVAR,Dist);
+                end
+                Chrom(row,:)=path2adj(startpopulation);
+            end
+        elseif(RepresentationMethode==2)
+            for row=1:NIND
+                %Choose Initialization
+                if(InitializationMethode==1)
+                    startpopulation=randperm(NVAR);
+                elseif(InitializationMethode==2)
+                    startpopulation=nearestneighbour(NVAR,Dist);
+                end
+                Chrom(row,:)=startpopulation;           
+            end
         end
+        
+        
         gen=0;
         % number of individuals of equal fitness needed to stop
         stopN=ceil(STOP_PERCENTAGE*NIND);
@@ -93,8 +119,11 @@ delta=0.02;
             end
 
             
-            visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
-            %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3,best_average);
+            %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
+            %    worst, ah2, ObjV, NIND, ah3,best_average);
+            
+            %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+            %ObjV, NIND, ah3,best_average);
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
                   break;
@@ -123,21 +152,21 @@ delta=0.02;
             %----------------------------------------------------------
             if(stoppingCriteria==1)
                 % E_1
-                di=abs(diff(best(1:gen+1)))
+                di=abs(diff(best(1:gen+1)));
                 di(di<delta)=0;
                 i = find(di);
                 n = [i numel(best(1:gen+1))] - [0 i];
                 n_end=n(end);
             elseif(stoppingCriteria==2)
                 % E_2
-                di=abs(diff(mean_fits(1:gen+1)))
+                di=abs(diff(mean_fits(1:gen+1)));
                 di(di<delta)=0;
                 i = find(di);
                 n = [i numel(mean_fits(1:gen+1))] - [0 i];
                 n_end=n(end);
             elseif(stoppingCriteria==3 )
                 % E_3
-                di=abs(diff(best_average(1:gen+1)))
+                di=abs(diff(best_average(1:gen+1)));
                 di(di<delta)=0;
                 i = find(di);
                 n = [i numel(best_average(1:gen+1))] - [0 i];

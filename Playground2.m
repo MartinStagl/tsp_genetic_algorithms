@@ -1,5 +1,22 @@
-[~,~,stats] = anovan(result.ShortestPath,{result.CROSSOVER ,result.NIND,result.MAXGEN,result.ELITIST,result.PR_CROSS,result.PR_MUT},'model','interaction','varnames',{'CROSSOVER','NIND','MAXGEN','ELITIST','PR_CROSS','PR_MUT'});
+NIND=[20,50,100,200];		% Number of individuals
+MAXGEN=[50,100,200,500];		% Maximum no. of generations
+NVAR=26;		% No. of variables
+PRECI=1;		% Precision of variables
+ELITIST=[0.05,0.1,0.01,0];    % percentage of the elite population
+GGAP=1-ELITIST;		% Generation gap
+STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
+PR_CROSS=[.95,.60,.10,.1];     % probability of crossover
+PR_MUT=[.05,.10,.60,.85];       % probability of mutation
+LOCALLOOP=0;      % local loop removal
+CROSSOVER = ["xalt_edges"];  % default crossover operator
+elements = {1:10,CROSSOVER ,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT}; %cell array with N vectors to combine
+ combinations = cell(1, numel(elements)); %set up the varargout result
+ [combinations{:}] = ndgrid(elements{:});
+ combinations = cellfun(@(x) x(:), combinations,'uniformoutput',false); %there may be a better way to do this
+ result = splitvars(table([combinations{:,:}])); % NumberOfCombinations by N matrix. Each row is unique.
+result.Properties.VariableNames ={'NumberOfRuns','CROSSOVER','NIND','MAXGEN','ELITIST','PR_CROSS','PR_MUT'};
+result.Time=zeros(size(result,1),1);
+result.ShortestPath=zeros(size(result,1),1);
+result.Generations=zeros(size(result,1),1);
 
-results = multcompare(stats,'CType','hsd');
-
-results
+x=double(table2array(result(1,'NIND')))
