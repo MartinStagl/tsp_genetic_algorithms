@@ -14,8 +14,9 @@
 
 function NewChrIx = tourwithoutrepl(FitnV, Nsel, K)
 %Check the input values
+K=1;
 if (length(FitnV)-Nsel*K < 0)
-    error("Check Nsel and K in the Tournament selection without replacement.");
+    %error("Check Nsel and K in the Tournament selection without replacement.");
 end
 
 current_member = 1;
@@ -34,7 +35,7 @@ while (current_member <= Nsel)
             best = picked(ind);
         end
     end
-    NewChrIx(current_member) = find(FitnV==best);
+    NewChrIx(current_member) = find(FitnV==best,1);
     current_member = current_member+1;
     
     %throw out the already K selected members

@@ -1,34 +1,34 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=[20,50,100,200];		% Number of individuals
-MAXGEN=[50,100,200,500];		% Maximum no. of generations
+NIND=[32, 64, 96, 128];		% Number of individuals
+MAXGEN=[30, 40, 60, 80, 100];		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
-ELITIST=[0.05,0.1,0.01,0];    % percentage of the elite population
+ELITIST=[0,0.05];    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=[.95,.60,.10,.1];     % probability of crossover
-PR_MUT=[.05,.10,.60,.85];       % probability of mutation
-LOCALLOOP=0;      % local loop removal
+PR_CROSS=[0.05, 0.9, 0.95, 1.00];     % probability of crossover
+PR_MUT=[0.05, 0.10, 0.95];       % probability of mutation
+LOCALLOOP=[1];      % local loop removal
 CROSSOVER = ["xalt_edges"];  % default crossover operator
-stoppingCriteria=[1,2,3];
-n_percentage=[0.1,0.5,0.9];
-delta=[0.02,0.05,0.1];
-InitializationMethode=[1,2];
-RepresentationMethode=[1,2];
-MutationMethode='inversion';
+InitializationMethode=[1];
+RepresentationMethode=[1];
+MutationMethode='inversion'; %exchange
+SelectionMethode='sus';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+stoppingCriteria=[4];
+n_percentage=[1];
+delta=[1];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load the data sets
-datasetslist = dir('datasets/');datasetslist = dir('datasets/');
+datasetslist = dir('../TSPBenchmark/');datasetslist = dir('../TSPBenchmark/');
 datasets=cell( size(datasetslist,1)-2,1);datasets=cell( size(datasetslist,1)-2 ,1);
 for i=1:size(datasets,1);
     datasets{i} = datasetslist(i+2).name;
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{1}]);
-x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
+data = load(['../TSPBenchmark/' datasets{4}]);
+x=data(:,1);y=data(:,2);
 NVAR=size(data,1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,7 +70,9 @@ result.ShortestPath=zeros(size(result,1),1);
 result.Generations=zeros(size(result,1),1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for row = 1:size(result,1)
-    rng(0776982) 
+    if(mod(row-1,10)==0)
+        rng(0776982) 
+    end
         tic;
         [help_ShortestPath,help_Generations]=run_ga_Project2019(x, y, double(table2array(result(row,'NIND')))...
             ,double(table2array(result(row,'MAXGEN'))), NVAR, double(table2array(result(row,'ELITIST')))...
@@ -81,14 +83,15 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'n_percentage')))...
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
-            ,double(table2array(result(row,'RepresentationMethode'))),);
+            ,double(table2array(result(row,'RepresentationMethode')))...
+            ,MutationMethode,SelectionMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};
 
 end
 
-writetable(result,'result.csv')
+writetable(result,'results_ParameterTuning_Task1.csv')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %VISUALISATIONS

@@ -1,4 +1,4 @@
-function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode)
+function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -52,6 +52,9 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
 % 1 for Random initialization
 % 2 for NearestNeighbour Heuristic Initialization
 
+
+%SelectionMethode
+% sus or tourwithoutrepl
 
         GGAP = 1 - ELITIST;
         mean_fits=zeros(1,MAXGEN+1);
@@ -128,11 +131,11 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
             end
 
             if(RepresentationMethode==1)
-                visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
-                worst, ah2, ObjV, NIND, ah3,best_average);
+                %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
+                %worst, ah2, ObjV, NIND, ah3,best_average);
             elseif(RepresentationMethode==2)
-                visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
-                ObjV, NIND, ah3,best_average);
+                %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+                %ObjV, NIND, ah3,best_average);
             end
             
 
@@ -145,7 +148,8 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
         	%assign fitness values to entire population
         	FitnV=ranking(ObjV);
         	%select individuals for breeding
-        	SelCh=select('sus', Chrom, FitnV, GGAP);
+            
+        	SelCh=select(SelectionMethode, Chrom, FitnV, GGAP);
         	%recombine individuals (crossover)
             SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
             
@@ -203,5 +207,4 @@ function [best_end,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
             %increment generation counter
         	gen=gen+1; 
         end 
-        best_end=best(end);
 end
