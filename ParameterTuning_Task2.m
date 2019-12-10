@@ -14,6 +14,7 @@ InitializationMethode=[1];
 RepresentationMethode=[1];
 MutationMethode='inversion'; %exchange
 SelectionMethode='sus';
+recombinMethode=1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 stoppingCriteria=[1,2,3];
 n_percentage=[0.2,0.4,0.6];
@@ -84,7 +85,7 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
             ,double(table2array(result(row,'RepresentationMethode')))...
-            ,MutationMethode,SelectionMethode);
+            ,MutationMethode,SelectionMethode,recombinMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};

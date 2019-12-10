@@ -2,29 +2,31 @@ function tspgui()
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=[128];		% Number of individuals
-MAXGEN=[100];		% Maximum no. of generations
+NIND=[300];		% Number of individuals
+MAXGEN=[300];		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=[0.05];    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
-STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=[0.05];     % probability of crossover
-PR_MUT=[0.95];       % probability of mutation
+STOP_PERCENTAGE=0.90;    % percentage of equal fitness individuals for stopping
+PR_CROSS=[0.85];     % probability of crossover
+PR_MUT=[0.85];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
-%CROSSOVER = 'xpmx';
+CROSSOVER = 'xpmx';
+CROSSOVER = 'uhx';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-stoppingCriteria=[2];
-n_percentage=[0.2];
+stoppingCriteria=[4];
+n_percentage=[0.5];
 delta=[70];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-InitializationMethode=1;
-RepresentationMethode=1;
+InitializationMethode=2;
+RepresentationMethode=2;
 MutationMethode='inversion';
-%MutationMethode='reciprocal_exchange';
+MutationMethode='reciprocal_exchange';
 SelectionMethode='sus';
 %SelectionMethode='tourwithoutrepl';
+recombinMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % read an existing population
 % 1 -- to use the input file specified by the filename
@@ -204,7 +206,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode);
+        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)

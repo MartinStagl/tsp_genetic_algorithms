@@ -1,4 +1,4 @@
-function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode)
+function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -52,6 +52,9 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
 % 1 for Random initialization
 % 2 for NearestNeighbour Heuristic Initialization
 
+%recombinMethode
+% 1 for NormalMethods
+% 2 for HeuristicMethods
 
 %SelectionMethode
 % sus or tourwithoutrepl
@@ -134,8 +137,8 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
                 %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
                 %worst, ah2, ObjV, NIND, ah3,best_average);
             elseif(RepresentationMethode==2)
-                %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
-                %ObjV, NIND, ah3,best_average);
+                visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+                ObjV, NIND, ah3,best_average);
             end
             
 
@@ -150,10 +153,15 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
         	%select individuals for breeding
             
         	SelCh=select(SelectionMethode, Chrom, FitnV, GGAP);
+            
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         	%recombine individuals (crossover)
-            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
-            
-            
+            if(recombinMethode==1)
+                SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
+            elseif(recombinMethode==2)
+                SelCh = recombin_heuristic(CROSSOVER,SelCh,PR_CROSS,Dist);
+            end
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             SelCh=mutateTSP(MutationMethode,SelCh,PR_MUT,RepresentationMethode);
             
             %evaluate offspring, call objective function
@@ -167,9 +175,9 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             
             %reinsert offspring into population
         	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
-            
-            Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);     
-            
+            if(RepresentationMethode==1)
+                Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);     
+            end
             %----------------------------------------------------------
             % here the Stopping code: if n_end (=number of consecutive elements) are the same
             % as the maxEqualGenerations then we should terminate the

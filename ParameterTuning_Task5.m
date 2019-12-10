@@ -17,6 +17,7 @@ InitializationMethode=[1,2];
 RepresentationMethode=[1,2];
 MutationMethode='inversion'; %exchange
 SelectionMethode='sus';
+recombinMethode=1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,7 +84,7 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
             ,double(table2array(result(row,'RepresentationMethode')))...
-            ,MutationMethode,SelectionMethode);
+            ,MutationMethode,SelectionMethode,recombinMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};
