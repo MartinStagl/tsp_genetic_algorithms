@@ -4,6 +4,8 @@
 %    FitnV     - Column vector containing the fitness values of the
 %                individuals in the population.
 %    Nsel      - number of individuals to be selected
+%
+% Important parameter:
 %    K         - number of members we want to select of a pool of Nsel individuals
 %
 % Output parameters:
@@ -12,7 +14,7 @@
 %                The new population, ready for mating, can be obtained
 %                by calculating OldChrom(NewChrIx,:).
 
-function NewChrIx = tourwithoutrepl(FitnV, Nsel, K)
+function NewChrIx = tourwithoutrepl(FitnV, Nsel)
 %Check the input values
 K=1;
 if (length(FitnV)-Nsel*K < 0)
@@ -29,9 +31,9 @@ while (current_member <= Nsel)
     picked = pomFitnV(1:K);
     
     %Compare these K individuals and select the best of them
-    best = 0;
-    for ind=1:K
-        if picked(ind)>best
+    best = picked(1);
+    for ind=2:K
+        if picked(ind)<best
             best = picked(ind);
         end
     end
@@ -39,6 +41,6 @@ while (current_member <= Nsel)
     current_member = current_member+1;
     
     %throw out the already K selected members
-    pomFitnV = pomFitnV(K+1:length(pomFitnV));  
+    pomFitnV = pomFitnV(pomFitnV~=best);  
 end
 end
