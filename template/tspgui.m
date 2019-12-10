@@ -9,33 +9,36 @@ PRECI=1;		% Precision of variables
 ELITIST=[0.05];    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=0.90;    % percentage of equal fitness individuals for stopping
-PR_CROSS=[0.95];     % probability of crossover
-PR_MUT=[0.05];       % probability of mutation
+PR_CROSS=[0.70];     % probability of crossover
+PR_MUT=[0.15];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
 CROSSOVER = 'xpmx';
-%CROSSOVER = 'orderx';
-%CROSSOVER = 'uhx'; % heuristic crossover
+CROSSOVER = 'x_orderx';
+CROSSOVER = 'uhx'; % heuristic crossover
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 stoppingCriteria=[4];
 n_percentage=[0.5];
 delta=[70];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-InitializationMethode=1;
+InitializationMethode=2;
 RepresentationMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 MutationMethode='inversion';
-%MutationMethode='reciprocal_exchange';
+MutationMethode='reciprocal_exchange';
+MutationMethode='scramble';
+%MutationMethode='insert'
+%MutationMethode='swapping'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 SelectionMethode='sus';
-SelectionMethode='fps';
-SelectionMethode='tourwithoutrepl';
+%SelectionMethode='fps';
+%SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SurvivalMethode=1;
+SurvivalMethode=2;
 %SelectionMethode='ranking';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-recombinMethode=1;
+recombinMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % read an existing population
 % 1 -- to use the input file specified by the filename

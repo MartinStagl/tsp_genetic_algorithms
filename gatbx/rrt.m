@@ -37,4 +37,4 @@ for individual = 1:n
 end
 
 % select Nsel individuals with highest number of wins
-[selected, NewChrIx] = mink(wins(:), Nsel);
+[selected, NewChrIx] = maxk(wins(:), Nsel);
