@@ -19,7 +19,7 @@ puted.
 
 4. Implement and use another representation and appropriate crossover and mutation operators.
 Perform some parameter tuning to identify proper combinations of the parameters.
-### OPEN
+### DONE
 
 5. Test to which extent a local optimisation heuristic can improve the result.
 * Implement Heuristic for Crossover -> Distance Preserving crossover DPX page 175
@@ -46,7 +46,7 @@ subpopulations/islands, crowding, . . . ). Perform experiments and evaluate the 
 * (d) Incorporate an adaptive or self-adaptive parameter control strategy (e.g. parameters that
 depend on the state of the population, parameters that co-evolve with the population, . . . ).
 Perform experiments and evaluate the results.
-### OPEN
+### IMPLEMENTATION DONE, TODO: TESTS, COMPARISONS
 
 8. Write a report to describe your implementation and to explain your results. A template for the
 report will be made available on Toledo. You must use this template and carefully follow the
