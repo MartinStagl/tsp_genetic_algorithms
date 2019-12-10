@@ -174,7 +174,7 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             end
             
             if(SurvivalMethode==1)
-                Chrom = select('rrt',[Chrom;SelCh],[FitnV;ObjVSel],GGAP,1,size(Chrom,1));
+                Chrom = select('rrt',[Chrom;SelCh],[FitnV;ObjVSel],GGAP);
                 %evaluate offspring, call objective function
                 if(RepresentationMethode==1)
                     ObjVSel = tspfun(Chrom,Dist);

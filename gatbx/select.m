@@ -24,7 +24,7 @@
 % Author:     Hartmut Pohlheim
 % History:    10.03.94     file created
 
-function SelCh = select(SEL_F, Chrom, FitnV, GGAP, SUBPOP);
+function SelCh = select(SEL_F, Chrom, FitnV, GGAP, SUBPOP,NSel);
 
 % Check parameter consistency
    if nargin < 3, error('Not enough input parameter'); end
@@ -54,8 +54,9 @@ function SelCh = select(SEL_F, Chrom, FitnV, GGAP, SUBPOP);
    end
 
 % Compute number of new individuals (to select)
-   NSel=max(floor(Nind*GGAP+.5),2);
-
+  if (~exist('NSel','var'))
+    NSel=max(floor(Nind*GGAP+.5),2);
+  end
 % Select individuals from population
    SelCh = [];
    for irun = 1:SUBPOP,

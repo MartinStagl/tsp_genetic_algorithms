@@ -14,7 +14,7 @@
 
 function NewChrIx = tourwithoutrepl(FitnV, Nsel, K)
 %Check the input values
-K=1;
+K=10;
 if (length(FitnV)-Nsel*K < 0)
     %error("Check Nsel and K in the Tournament selection without replacement.");
 end
@@ -25,20 +25,20 @@ NewChrIx = zeros(Nsel,1);
 
 while (current_member <= Nsel)
     %Pick K individuals randomly without replacement
-    pomFitnV = pomFitnV(randperm(length(pomFitnV)));
-    picked = pomFitnV(1:K);
+    pomFitnV = pomFitnV
+    picked = sort(pomFitnV(randperm(length(pomFitnV),K)));
     
     %Compare these K individuals and select the best of them
-    best = 0;
-    for ind=1:K
-        if picked(ind)>best
-            best = picked(ind);
-        end
-    end
-    NewChrIx(current_member) = find(FitnV==best,1);
+    %best = 0;
+    %for ind=1:K
+    %    if picked(ind)>best
+    %        best = picked(ind);
+    %    end
+    %end
+    NewChrIx(current_member) = find(FitnV==picked(1,1),1);
     current_member = current_member+1;
     
     %throw out the already K selected members
-    pomFitnV = pomFitnV(K+1:length(pomFitnV));  
+    pomFitnV = pomFitnV(pomFitnV~=picked(1,1));  
 end
 end

@@ -31,8 +31,8 @@ MutationMethode='inversion';
 SelectionMethode='sus';
 SelectionMethode='fps';
 SelectionMethode='tourwithoutrepl';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SurvivalMethode=1;
+
+SelectionMethode='rrt';
 %SelectionMethode='ranking';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 recombinMethode=1;
@@ -215,7 +215,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode,SurvivalMethode);
+        run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
