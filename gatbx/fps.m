@@ -24,7 +24,7 @@ newFitnV = FitnV - minFitnV;
 
 sumFitnV = sum(newFitnV);
 probOfBeingPicked = newFitnV ./ sumFitnV;
-selected = maxk(probOfBeingPicked, Nsel);
+selected = mink(probOfBeingPicked, Nsel);
 
 for i=1:Nsel
     NewChrIx(i) = find(probOfBeingPicked == selected(i));

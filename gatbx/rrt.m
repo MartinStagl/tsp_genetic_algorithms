@@ -28,13 +28,13 @@ for individual = 1:n
     opponents = randomIx(1:q);
     
     for i = 1:length(opponents)
-        if FitnV(individual) > FitnV(opponents(i))
+        if FitnV(individual) < FitnV(opponents(i))
             wins(individual) = wins(individual) + 1;
-        elseif FitnV(individual) < FitnV(opponents(i))
+        elseif FitnV(individual) > FitnV(opponents(i))
             wins(opponents(i)) = wins(opponents(i)) + 1;
         end
     end
 end
 
 % select Nsel individuals with highest number of wins
-[selected, NewChrIx] = maxk(wins(:), Nsel);
+[selected, NewChrIx] = mink(wins(:), Nsel);
