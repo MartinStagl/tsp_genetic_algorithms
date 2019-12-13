@@ -139,8 +139,8 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
                 %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
                 %worst, ah2, ObjV, NIND, ah3,best_average);
             elseif(RepresentationMethode==2)
-                visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
-                ObjV, NIND, ah3,best_average);
+                %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+                %ObjV, NIND, ah3,best_average);
             end
             
 

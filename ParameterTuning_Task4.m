@@ -1,25 +1,41 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=[128];		% Number of individuals
-MAXGEN=[500];		% Maximum no. of generations
+NIND=[300];		% Number of individuals
+MAXGEN=[300];		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=[0.05];    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
-STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=[0.05];     % probability of crossover
-PR_MUT=[0.95];       % probability of mutation
+STOP_PERCENTAGE=0.90;    % percentage of equal fitness individuals for stopping
+PR_CROSS=[0.70];     % probability of crossover
+PR_MUT=[0.15];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
-CROSSOVER = ["xalt_edges"];  % default crossover operator
-RepresentationMethode=[1];
-MutationMethode='inversion'; %exchange
-SelectionMethode='sus';
+CROSSOVER = ["xalt_edges",'xpmx','x_orderx','uhx'];  % default crossover operator
+%CROSSOVER = 'xpmx';
+%CROSSOVER = 'x_orderx';
+%CROSSOVER = 'uhx'; % heuristic crossover
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-stoppingCriteria=[3];
+stoppingCriteria=[4];
 n_percentage=[0.5];
-delta=[100];
+delta=[70];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 InitializationMethode=[1,2];
-recombinMethode=1;
+RepresentationMethode=2;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+MutationMethode=["inversion",'reciprocal_exchange','scramble','insert','swapping'];
+%MutationMethode='reciprocal_exchange';
+%MutationMethode='scramble';
+%MutationMethode='insert';
+%MutationMethode='swapping';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+SelectionMethode='sus';
+%SelectionMethode='fps';
+%SelectionMethode='tourwithoutrepl';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+SurvivalMethode=2;
+%SelectionMethode='ranking';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+recombinMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load the data sets
 datasetslist = dir('../TSPBenchmark/');datasetslist = dir('../TSPBenchmark/');
@@ -59,14 +75,14 @@ PARAMNUM=length(CROSSOVER)+length(NIND)+length(MAXGEN)+length(ELITIST)+length(PR
 % Results Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elements = {1:10,CROSSOVER ,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT,stoppingCriteria...
-    ,n_percentage,delta,InitializationMethode,RepresentationMethode}; %cell array with N vectors to combine
+    ,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode}; %cell array with N vectors to combine
  combinations = cell(1, numel(elements)); %set up the varargout result
  [combinations{:}] = ndgrid(elements{:});
  combinations = cellfun(@(x) x(:), combinations,'uniformoutput',false); %there may be a better way to do this
  result = splitvars(table([combinations{:,:}])); % NumberOfCombinations by N matrix. Each row is unique.
 result.Properties.VariableNames ={'NumberOfRuns','CROSSOVER','NIND','MAXGEN'...
     ,'ELITIST','PR_CROSS','PR_MUT','stoppingCriteria','n_percentage','delta'...
-    ,'InitializationMethode','RepresentationMethode'};
+    ,'InitializationMethode','RepresentationMethode','MutationMethode'};
 result.Time=zeros(size(result,1),1);
 result.ShortestPath=zeros(size(result,1),1);
 result.Generations=zeros(size(result,1),1);
@@ -76,6 +92,12 @@ for row = 1:size(result,1)
         rng(0776982) 
     end
         tic;
+        %run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, 
+        %STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, 
+        %ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,
+        %InitializationMethode,RepresentationMethode,MutationMethode,
+        %SelectionMethode,recombinMethode,SurvivalMethode);
+        
         [help_ShortestPath,help_Generations]=run_ga_Project2019(x, y, double(table2array(result(row,'NIND')))...
             ,double(table2array(result(row,'MAXGEN'))), NVAR, double(table2array(result(row,'ELITIST')))...
             ,STOP_PERCENTAGE...
@@ -86,11 +108,11 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
             ,double(table2array(result(row,'RepresentationMethode')))...
-            ,MutationMethode,SelectionMethode,recombinMethode);
+            ,table2array(result(row,'MutationMethode')),SelectionMethode,recombinMethode,SurvivalMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};
 
 end
 
-writetable(result,'results_ParameterTuning_Task3-2.csv')
+writetable(result,'results_ParameterTuning_Task4.csv')
