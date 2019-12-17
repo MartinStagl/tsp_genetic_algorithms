@@ -31,9 +31,9 @@ MutationMethode='scramble';
 %MutationMethode='insert'
 %MutationMethode='swapping'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SelectionMethode='sus';
+%SelectionMethode='sus';
 %SelectionMethode='fps';
-%SelectionMethode='tourwithoutrepl';
+SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 SurvivalMethode=2;
 %SelectionMethode='ranking';
