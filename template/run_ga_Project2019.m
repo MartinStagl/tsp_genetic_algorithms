@@ -57,7 +57,7 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
 % 2 for HeuristicMethods
 
 %SelectionMethode
-% sus or tourwithoutrepl
+% sus or tourwithoutrepl or fps
 
 %SurvivalMethode
 
@@ -143,9 +143,6 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
                 ObjV, NIND, ah3,best_average);
             end
             
-
-            
-
 
             if (sObjV(stopN)-sObjV(1) <= 1e-15)
                   break;
