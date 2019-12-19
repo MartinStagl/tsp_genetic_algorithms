@@ -3,7 +3,7 @@
         plot(X(Path),Y(Path), 'ko-','MarkerFaceColor','Black');
         hold on;
         plot([X(Path(length(Path))) X(Path(1))],[Y(Path(length(Path))) Y(Path(1))], 'ko-','MarkerFaceColor','Black');
-        ylim([0 100]);
+        %ylim([0 100]);
     	title(['Best route length: ' num2str(TotalDist)]);
         hold off;
         axes(figNr2);
