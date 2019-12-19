@@ -15,8 +15,7 @@
 %                by calculating OldChrom(NewChrIx,:).
 
 function NewChrIx = fps(FitnV, Nsel);
-
-NewChrIx = zeros(Nsel, 1);
+NewChrIx = [];
 
 % perform windowing
 minFitnV = min(FitnV);
@@ -24,10 +23,15 @@ newFitnV = FitnV - minFitnV;
 
 sumFitnV = sum(newFitnV);
 probOfBeingPicked = newFitnV ./ sumFitnV;
-selected = mink(probOfBeingPicked, Nsel);
+selected = maxk(probOfBeingPicked, Nsel);
+
+previous = -1;
 
 for i=1:Nsel
-    NewChrIx(i) = find(probOfBeingPicked == selected(i));
+    if selected(i)~=previous
+        NewChrIx = [NewChrIx; find(probOfBeingPicked == selected(i))];
+        previous = selected(i);
+    end
 end
 
 

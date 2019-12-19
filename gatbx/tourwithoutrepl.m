@@ -23,12 +23,14 @@ NewChrIx = zeros(Nsel,1);
 
 while (current_member <= Nsel)
     %Pick K individuals randomly without replacement
-    picked = sort(pomFitnV(randperm(length(pomFitnV),K)));
+    permutation = randperm(length(pomFitnV),K);
+    picked = sort(pomFitnV(permutation));
     
-    NewChrIx(current_member) = find(FitnV==picked(1,1));
+    indices = find(FitnV==picked(K));
+    NewChrIx(current_member) = indices(1);
     current_member = current_member+1;
     
     %throw out the already selected best member
-    pomFitnV = pomFitnV(pomFitnV~=picked(1,1));  
+    pomFitnV(max(permutation)) = [];  
 end
 end
