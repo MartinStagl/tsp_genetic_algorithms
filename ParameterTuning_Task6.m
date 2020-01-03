@@ -9,7 +9,7 @@ STOP_PERCENTAGE=0.90;    % percentage of equal fitness individuals for stopping
 PR_CROSS=[0.70];     % probability of crossover
 PR_MUT=[0.3];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
-CROSSOVER = ['uhx'];
+CROSSOVER = ["uhx"];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 stoppingCriteria=[4];
@@ -21,7 +21,7 @@ RepresentationMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 MutationMethode=["inversion"];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SelectionMethode=['sus', 'fps', 'tourwithoutrepl'];
+SelectionMethode=["sus", "fps", "tourwithoutrepl"];
 %SelectionMethode='fps';
 %SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +68,7 @@ PARAMNUM=length(CROSSOVER)+length(NIND)+length(MAXGEN)+length(ELITIST)+length(PR
 % Results Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elements = {1:10,CROSSOVER ,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT,stoppingCriteria...
-    ,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode}; %cell array with N vectors to combine
+    ,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode, SelectionMethode}; %cell array with N vectors to combine
  combinations = cell(1, numel(elements)); %set up the varargout result
  [combinations{:}] = ndgrid(elements{:});
  combinations = cellfun(@(x) x(:), combinations,'uniformoutput',false); %there may be a better way to do this
@@ -101,7 +101,7 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
             ,double(table2array(result(row,'RepresentationMethode')))...
-            ,table2array(result(row,'MutationMethode')),SelectionMethode,recombinMethode,SurvivalMethode);
+            ,table2array(result(row,'MutationMethode')),table2array(result(row,'SelectionMethode')),recombinMethode,SurvivalMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};
