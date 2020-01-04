@@ -1,0 +1,11 @@
+NumberOfRuns,CROSSOVER,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,Time,ShortestPath,Generations
+1,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,14.3654914,657.401678808657,300
+2,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,11.330517,681.641783971637,300
+3,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,13.6429375,644.532547106955,300
+4,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,14.4620993,660.205821052424,300
+5,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,14.6874405,625.731878251798,300
+6,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,12.3707843,664.983904075409,300
+7,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,12.4419747,676.823752736141,300
+8,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,12.6326813,661.933779623357,300
+9,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,12.5654841,636.557971192513,300
+10,uhx,300,300,0.05,0.7,0.3,4,0.5,70,2,2,scramble,fps,14.0275518,649.633442950013,300

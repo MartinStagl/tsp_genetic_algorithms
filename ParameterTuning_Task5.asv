@@ -1,6 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   The bechmark tests
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 NIND=[300];		% Number of individuals
-MAXGEN=[100];		% Maximum no. of generations
+MAXGEN=[300];		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=[0.05];    % percentage of the elite population
@@ -16,17 +18,17 @@ stoppingCriteria=[4];
 n_percentage=[0.5];
 delta=[70];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-InitializationMethode=2;
+InitializationMethode=[2];
 RepresentationMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-MutationMethode=["inversion"];
+MutationMethode=["scramble"];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SelectionMethode="fps";
-%SelectionMethode='sus';
+SelectionMethode=["fps"];
+%SelectionMethode='fps';
 %SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SurvivalMethode=[1, 2];
-q = [5, 10, 50, 100];
+SurvivalMethode=2;
+%SelectionMethode='ranking';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 recombinMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +40,8 @@ for i=1:size(datasets,1);
 end
 
 % start with first dataset
-data = load(['../TSPBenchmark/' datasets{4}]);
+for datas = 1:4
+data = load(['../TSPBenchmark/' datasets{datas}]);
 x=data(:,1);y=data(:,2);
 NVAR=size(data,1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,20 +65,20 @@ ah3 = axes('Parent',fh,'Position',[.1 .1 .4 .4]);
 i=1;
 PARAMNUM=length(CROSSOVER)+length(NIND)+length(MAXGEN)+length(ELITIST)+length(PR_CROSS)...
     +length(PR_MUT)+length(stoppingCriteria)+length(n_percentage)+length(delta)...
-    +length(InitializationMethode)+length(RepresentationMethode)+length(SurvivalMethode)+length(q);
+    +length(InitializationMethode)+length(RepresentationMethode)+length(SelectionMethode);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elements = {1:10,CROSSOVER ,NIND,MAXGEN,ELITIST,PR_CROSS,PR_MUT,stoppingCriteria...
-    ,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode, SurvivalMethode,q}; %cell array with N vectors to combine
+    ,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode, SelectionMethode}; %cell array with N vectors to combine
  combinations = cell(1, numel(elements)); %set up the varargout result
  [combinations{:}] = ndgrid(elements{:});
  combinations = cellfun(@(x) x(:), combinations,'uniformoutput',false); %there may be a better way to do this
  result = splitvars(table([combinations{:,:}])); % NumberOfCombinations by N matrix. Each row is unique.
 result.Properties.VariableNames ={'NumberOfRuns','CROSSOVER','NIND','MAXGEN'...
     ,'ELITIST','PR_CROSS','PR_MUT','stoppingCriteria','n_percentage','delta'...
-    ,'InitializationMethode','RepresentationMethode','MutationMethode', 'SurvivalMethode', 'q'};
+    ,'InitializationMethode','RepresentationMethode','MutationMethode', 'SelectionMethode'};
 result.Time=zeros(size(result,1),1);
 result.ShortestPath=zeros(size(result,1),1);
 result.Generations=zeros(size(result,1),1);
@@ -90,7 +93,6 @@ for row = 1:size(result,1)
         %ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,
         %InitializationMethode,RepresentationMethode,MutationMethode,
         %SelectionMethode,recombinMethode,SurvivalMethode);
-        
         [help_ShortestPath,help_Generations]=run_ga_Project2019(x, y, double(table2array(result(row,'NIND')))...
             ,double(table2array(result(row,'MAXGEN'))), NVAR, double(table2array(result(row,'ELITIST')))...
             ,STOP_PERCENTAGE...
@@ -101,12 +103,12 @@ for row = 1:size(result,1)
             ,double(table2array(result(row,'delta')))...
             ,double(table2array(result(row,'InitializationMethode')))...
             ,double(table2array(result(row,'RepresentationMethode')))...
-            ,table2array(result(row,'MutationMethode')),SelectionMethode,recombinMethode,double(table2array(result(row,'SurvivalMethode')))...
-            ,double(table2array(result(row,'q'))));
+            ,table2array(result(row,'MutationMethode')),table2array(result(row,'SelectionMethode')),recombinMethode,SurvivalMethode);
         help_Time=toc;
         result(row,{'ShortestPath','Generations'})={help_ShortestPath,help_Generations};                       
         result(row,{'Time'})={help_Time};
 
 end
 
-writetable(result,'results_ParameterTuning_Task6_2.csv')
+writetable(result,strcat('results_ParameterTuning_Task5_d',string(datas),'.csv'))
+end
