@@ -1,4 +1,4 @@
-function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode,SurvivalMethode)
+function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3,stoppingCriteria,n_percentage,delta,InitializationMethode,RepresentationMethode,MutationMethode,SelectionMethode,recombinMethode,SurvivalMethode,q)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -136,11 +136,11 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             end
 
             if(RepresentationMethode==1)
-                visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
-                worst, ah2, ObjV, NIND, ah3,best_average);
+                %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
+                %worst, ah2, ObjV, NIND, ah3,best_average);
             elseif(RepresentationMethode==2)
-                visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
-                ObjV, NIND, ah3,best_average);
+                %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+                %ObjV, NIND, ah3,best_average);
             end
             
 
@@ -172,7 +172,7 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             
             if(SurvivalMethode==1)
                 %Survivor selection - Round-robin tournament
-                [Chrom ObjV]=reins(Chrom,SelCh,1,2,ObjV,ObjVSel);
+                [Chrom ObjV]=reins(Chrom,SelCh,1,2,ObjV,ObjVSel,q);
             else
                 %reinsert offspring into population
                 [Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);

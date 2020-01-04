@@ -28,6 +28,7 @@
 %                of the offspring (SelCh) in the current population, needed for
 %                partial insertion of offspring,
 %                saves recalculation of objective values for population
+%    q         - (optional) parameter for tuning selection pressure for rrt
 %
 % Output parameters:
 %    Chrom     - Matrix containing the individuals of the current
@@ -40,7 +41,7 @@
 % History:    10.03.94     file created
 %             19.03.94     parameter checking improved
 
-function [Chrom, ObjVCh] = reins(Chrom, SelCh, SUBPOP, InsOpt, ObjVCh, ObjVSel);
+function [Chrom, ObjVCh] = reins(Chrom, SelCh, SUBPOP, InsOpt, ObjVCh, ObjVSel, q);
 
 
 % Check parameter consistency
@@ -123,7 +124,7 @@ function [Chrom, ObjVCh] = reins(Chrom, SelCh, SUBPOP, InsOpt, ObjVCh, ObjVSel);
    else
        allInd = [Chrom; SelCh];
        allObjV = [ObjVCh; ObjVSel];
-       NewChrIx = rrt(allObjV, NIND);
+       NewChrIx = rrt(allObjV, NIND, q);
        Chrom = allInd(NewChrIx,:);
        ObjVCh = allObjV(NewChrIx,:);
    end

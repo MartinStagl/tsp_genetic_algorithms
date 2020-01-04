@@ -9,13 +9,15 @@
 %    FitnV     - Column vector containing the fitness values of the
 %                individuals in the population AND the offspring.
 %    Nsel      - number of individuals to be selected
-%    q         - (optional) parameter which allows tuning selection pressure
 %
 % Output parameters:
 %    NewChrIx  - column vector containing the indexes of the selected
 %                individuals for the next generation.
 
 function NewChrIx = rrt(FitnV, Nsel, q);
+
+% parameter q allows tuning selection pressure
+q = 10;
 
 n = length(FitnV);
 wins = zeros(n, 1);
