@@ -17,7 +17,7 @@
 function NewChrIx = rrt(FitnV, Nsel);
 
 % parameter q allows tuning selection pressure
-q = 5;
+q = 10;
 
 n = length(FitnV);
 wins = zeros(n, 1);

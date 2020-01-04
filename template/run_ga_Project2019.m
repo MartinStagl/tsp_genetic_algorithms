@@ -136,11 +136,11 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             end
 
             if(RepresentationMethode==1)
-                %visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
-                %worst, ah2, ObjV, NIND, ah3,best_average);
+                visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, ...
+                worst, ah2, ObjV, NIND, ah3,best_average);
             elseif(RepresentationMethode==2)
-                %visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
-                %ObjV, NIND, ah3,best_average);
+                visualizeTSP(x,y,Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ...
+                ObjV, NIND, ah3,best_average);
             end
             
 
@@ -171,13 +171,8 @@ function [minimum,gen] = run_ga_Project2019(x, y, NIND, MAXGEN, NVAR, ELITIST, S
             end
             
             if(SurvivalMethode==1)
-                Chrom = select('rrt',[Chrom;SelCh],[FitnV;ObjVSel],GGAP,1,size(Chrom,1));
-                %evaluate offspring, call objective function
-                if(RepresentationMethode==1)
-                    ObjVSel = tspfun(Chrom,Dist);
-                elseif(RepresentationMethode==2)
-                    ObjVSel = tspfun_path(Chrom,Dist);
-                end
+                %Survivor selection - Round-robin tournament
+                [Chrom ObjV]=reins(Chrom,SelCh,1,2,ObjV,ObjVSel);
             else
                 %reinsert offspring into population
                 [Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);

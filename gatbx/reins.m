@@ -15,6 +15,7 @@
 %                ExOpt(1): Select - number indicating kind of insertion
 %                          0 - uniform insertion
 %                          1 - fitness-based insertion
+%                          2 - Round-robin tournament
 %                          if omitted or NaN, 0 is assumed
 %                ExOpt(2): INSR - Rate of offspring to be inserted per
 %                          subpopulation (% of subpopulation)
@@ -91,31 +92,40 @@ function [Chrom, ObjVCh] = reins(Chrom, SelCh, SUBPOP, InsOpt, ObjVCh, ObjVSel);
    
    if (INSR < 0 | INSR > 1), error('Parameter for insertion rate must be a scalar in [0, 1]'); end
    if (INSR < 1 & IsObjVSel ~= 1), error('For selection of offspring ObjVSel is needed'); end 
-   if (Select ~= 0 & Select ~= 1), error('Parameter for selection method must be 0 or 1'); end
+   if (Select ~= 0 & Select ~= 1 & Select ~= 2), error('Parameter for selection method must be 0 or 1 or 2'); end
    if (Select == 1 & IsObjVCh == 0), error('ObjVCh for fitness-based exchange needed'); end
+   if (Select == 2 & IsObjVCh == 0), error('ObjVCh for Round-robin tournament needed'); end
 
    if INSR == 0, return; end
    NIns = min(max(floor(INSR*NSEL+.5),1),NIND);   % Number of offspring to insert   
 
-% perform insertion for each subpopulation
-   for irun = 1:SUBPOP,
-      % Calculate positions in old subpopulation, where offspring are inserted
-         if Select == 1,    % fitness-based reinsertion
-            [Dummy, ChIx] = sort(-ObjVCh((irun-1)*NIND+1:irun*NIND));
-         else               % uniform reinsertion
-            [Dummy, ChIx] = sort(rand(NIND,1));
-         end
-         PopIx = ChIx((1:NIns)')+ (irun-1)*NIND;
-      % Calculate position of Nins-% best offspring
-         if (NIns < NSEL),  % select best offspring
-            [Dummy,OffIx] = sort(ObjVSel((irun-1)*NSEL+1:irun*NSEL));
-         else              
-            OffIx = (1:NIns)';
-         end
-         SelIx = OffIx((1:NIns)')+(irun-1)*NSEL;
-      % Insert offspring in subpopulation -> new subpopulation
-         Chrom(PopIx,:) = SelCh(SelIx,:);
-         if (IsObjVCh == 1 & IsObjVSel == 1), ObjVCh(PopIx) = ObjVSel(SelIx); end
+   if (Select ~= 2)
+           % perform insertion for each subpopulation
+       for irun = 1:SUBPOP,
+          % Calculate positions in old subpopulation, where offspring are inserted
+             if Select == 1,    % fitness-based reinsertion
+                [Dummy, ChIx] = sort(-ObjVCh((irun-1)*NIND+1:irun*NIND)); % sorting in descending order - tha's why there is -ObjVCh 
+             else               % uniform reinsertion
+                [Dummy, ChIx] = sort(rand(NIND,1));
+             end
+             PopIx = ChIx((1:NIns)')+ (irun-1)*NIND;
+          % Calculate position of Nins-% best offspring
+             if (NIns < NSEL),  % select best offspring
+                [Dummy,OffIx] = sort(ObjVSel((irun-1)*NSEL+1:irun*NSEL));
+             else              
+                OffIx = (1:NIns)';
+             end
+             SelIx = OffIx((1:NIns)')+(irun-1)*NSEL;
+          % Insert offspring in subpopulation -> new subpopulation
+             Chrom(PopIx,:) = SelCh(SelIx,:);
+             if (IsObjVCh == 1 & IsObjVSel == 1), ObjVCh(PopIx) = ObjVSel(SelIx); end
+       end
+   else
+       allInd = [Chrom; SelCh];
+       allObjV = [ObjVCh; ObjVSel];
+       NewChrIx = rrt(allObjV, NIND);
+       Chrom = allInd(NewChrIx,:);
+       ObjVCh = allObjV(NewChrIx,:);
    end
 
 

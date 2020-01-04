@@ -14,8 +14,8 @@ PR_MUT=[0.3];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
 %CROSSOVER = 'xalt_edges';  % default crossover operator
 %CROSSOVER = 'xpmx';
-CROSSOVER = 'x_orderx';
-%CROSSOVER = 'uhx'; % heuristic crossover
+%CROSSOVER = 'x_orderx';
+CROSSOVER = 'uhx'; % heuristic crossover
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 stoppingCriteria=[4];
@@ -32,11 +32,12 @@ MutationMethode='inversion';
 %MutationMethode='swapping'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %SelectionMethode='sus';
-SelectionMethode='rws';
+%SelectionMethode='rws';
+SelectionMethode='fps';
 %SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%SurvivalMethode=1;  % Round-robin tournament
-SurvivalMethode=2;  % Elistism
+SurvivalMethode=1;  % Round-robin tournament
+%SurvivalMethode=2;  % Elistism
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 recombinMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

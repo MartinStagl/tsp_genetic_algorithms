@@ -9,7 +9,7 @@ STOP_PERCENTAGE=0.90;    % percentage of equal fitness individuals for stopping
 PR_CROSS=[0.70];     % probability of crossover
 PR_MUT=[0.3];       % probability of mutation
 LOCALLOOP=[1];      % local loop removal
-CROSSOVER = ["uhx"];
+CROSSOVER = ['uhx'];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 stoppingCriteria=[4];
@@ -19,9 +19,9 @@ delta=[70];
 InitializationMethode=[2];
 RepresentationMethode=2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-MutationMethode=["inversion"];
+MutationMethode=['inversion'];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SelectionMethode=["sus", "fps", "tourwithoutrepl"];
+SelectionMethode=['sus', 'fps', 'tourwithoutrepl'];
 %SelectionMethode='fps';
 %SelectionMethode='tourwithoutrepl';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
