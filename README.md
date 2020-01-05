@@ -6,7 +6,7 @@
 [Todo]
 Tasks:
 
-1. On Toledo, you can nd the GA Toolbox, the template program and tutorials about Matlab.
+1. On Toledo, you can Find the GA Toolbox, the template program and tutorials about Matlab.
 Test the Matlab program to solve a TSP.
 ### DONE
 2. Perform a limited set of experiments by varying the parameters of the existing genetic algorithm
@@ -27,16 +27,10 @@ Perform some parameter tuning to identify proper combinations of the parameters.
 
 6. Test the performance of your algorithm using some benchmark problems (available on Toledo)
 and critically evaluate the achieved performance.
-Keep in mind that for a large number of cities the search space is extremely large! If your
-algorithm doesn't perform well for a rather small number of cities, it doesn't make sense to use
-it for a benchmark problem with a large number of cities ...
-Note: For most of the benchmark problems the length of the optimal tour is known. However,
-the Matlab template program scales the data. Therefore this scaling must be switched o to be
-able to compare your result with the optimal tour length.
-### OPEN
+### Done
 
 7. You should select at least one task from the list below:
-* (a) Implement and use two other parent selection methods, i.e. tness proportional selection
+* (a) Implement and use two other parent selection methods, i.e. Fitness proportional selection
 and tournament selection. Compare the results with those obtained using the default rank-
 based selection.
 * (b) Implement one survivor selection strategy (besides the already implemented elitism). Per-
@@ -46,11 +40,11 @@ subpopulations/islands, crowding, . . . ). Perform experiments and evaluate the 
 * (d) Incorporate an adaptive or self-adaptive parameter control strategy (e.g. parameters that
 depend on the state of the population, parameters that co-evolve with the population, . . . ).
 Perform experiments and evaluate the results.
-### IMPLEMENTATION DONE, TODO: TESTS, COMPARISONS
+### DONE
 
 8. Write a report to describe your implementation and to explain your results. A template for the
 report will be made available on Toledo. You must use this template and carefully follow the
 guidelines of this template, in order to facilitate the correct evaluation of your project.
 Note: A short report can contain a lot of information, if carefully written. Be precise but concise!
 Do not repeat information from the handbook or slides.
-### OPEN
+### DONE
