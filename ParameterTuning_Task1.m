@@ -27,6 +27,7 @@ for i=1:size(datasets,1);
     datasets{i} = datasetslist(i+2).name;
 end
 
+for datas = 2:4
 % start with first dataset
 data = load(['../TSPBenchmark/' datasets{4}]);
 x=data(:,1);y=data(:,2);
